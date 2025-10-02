@@ -10,3 +10,5 @@ export * from './core/clock';
 export * from './storage/repository';
 export * from './storage/memoryStore';
 export * from './storage/fileStore';
+
+export * from './audit/auditLog';
