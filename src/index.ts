@@ -12,3 +12,6 @@ export * from './storage/memoryStore';
 export * from './storage/fileStore';
 
 export * from './audit/auditLog';
+
+export * from './auth/roles';
+export * from './auth/permissions';
