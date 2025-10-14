@@ -6,12 +6,12 @@ Pace them across real working sessions — every commit lands with the true date
 Status legend: `[ ]` todo  `[~]` in progress  `[x]` done
 
 ## Phase 1 — Foundation
-- [ ] 1. Project scaffold & tooling (package.json, tsconfig, vitest, lint, gitignore, README skeleton)
-- [ ] 2. Core domain primitives (shared types, Result/error model, ID generation, shared enums)
-- [ ] 3. Clock utilities (SystemClock + FixedClock) + tests
-- [ ] 4. Storage layer (repository interface, in-memory + file-backed JSON store) + tests
-- [ ] 5. Audit logging core (before/after snapshots, actor/timestamp/reason, history queries) + tests
-- [ ] 6. Role-based permissions (roles + authorization matrix) + tests
+- [x] 1. Project scaffold & tooling (package.json, tsconfig, vitest, lint, gitignore, README skeleton)
+- [x] 2. Core domain primitives (shared types, Result/error model, ID generation, shared enums)
+- [x] 3. Clock utilities (SystemClock + FixedClock) + tests
+- [x] 4. Storage layer (repository interface, in-memory + file-backed JSON store) + tests
+- [x] 5. Audit logging core (before/after snapshots, actor/timestamp/reason, history queries) + tests
+- [x] 6. Role-based permissions (roles + authorization matrix) + tests
 
 ## Phase 2 — Core clinical modules
 - [ ] 7. Patient admission & triage (lifecycle, triage levels, priority scoring, SLA windows) + tests
