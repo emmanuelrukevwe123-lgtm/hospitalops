@@ -15,3 +15,20 @@ export * from './audit/auditLog';
 
 export * from './auth/roles';
 export * from './auth/permissions';
+
+export * from './clinical/patient';
+export * from './clinical/ward';
+export * from './clinical/staff';
+export * from './clinical/order';
+export * from './clinical/pharmacy';
+export * from './clinical/lab';
+export * from './clinical/surgery';
+export * from './clinical/infection';
+
+export * from './billing/billing';
+export * from './safety/safety';
+export * from './compliance/compliance';
+export * from './analytics/analytics';
+
+export * from './rules/rulepackIndex';
+
