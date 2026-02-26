@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+npm-debug.log
+
+# Build & Test outputs
+dist/
+coverage/
+.vitest/
+
+# IDE and system files
+.claude/
+.git/
+.gitignore
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker files
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Application persistence (if using file-backed JSON store, exclude local data directory to prevent baking local dev data into the image)
+data/

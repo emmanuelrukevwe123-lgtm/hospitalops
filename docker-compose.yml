@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - ./data:/usr/src/app/data
+    ports:
+      - "3000:3000"
+    command: npm start
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm test
