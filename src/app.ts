@@ -1,7 +1,6 @@
 import { FixedClock } from './core/clock';
 import { SequentialIdGenerator } from './core/ids';
 import { InMemoryRepository } from './storage/memoryStore';
-import { AuditLog } from './audit/auditLog';
 import { Department } from './core/enums';
 import {
   Patient,
@@ -34,17 +33,6 @@ import {
   verifyDispensation,
 } from './clinical/pharmacy';
 import {
-  LabSample,
-  SampleStatus,
-  checkTATSLA,
-  evaluateCriticalThresholds,
-} from './clinical/lab';
-import {
-  InsuranceClaim,
-  ClaimStatus,
-  checkContractRateMismatch,
-} from './billing/billing';
-import {
   calculateBedOccupancy,
   calculateSLAAttainment,
 } from './analytics/analytics';
@@ -56,7 +44,6 @@ export function runDemo(): void {
   // 1. Scaffold core services
   const clock = new FixedClock('2026-06-04T08:00:00.000Z');
   const ids = new SequentialIdGenerator();
-  const audit = new AuditLog(clock, ids);
 
   // 2. Setup repos
   const patientRepo = new InMemoryRepository<Patient>('Patient');
@@ -203,3 +190,6 @@ export function runDemo(): void {
 
   console.log('--- DEMO RUN COMPLETED SUCCESSFULLY ---');
 }
+
+runDemo();
+
