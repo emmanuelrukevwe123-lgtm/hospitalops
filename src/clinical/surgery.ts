@@ -1,5 +1,5 @@
 import type { Entity, ISODateString } from '../core/types';
-import { AppError, invalidTransition, preconditionFailed, validation } from '../core/errors';
+import { invalidTransition, preconditionFailed } from '../core/errors';
 
 export const CaseType = {
   Elective: 'Elective',

@@ -40,9 +40,9 @@ describe('Order Management Module', () => {
     it('generates correct orders for Sepsis protocol', () => {
       const orders = generateProtocolOrders('pat_0001', 'staff_0001', 'Sepsis');
       expect(orders).toHaveLength(4);
-      expect(orders[0].details.itemName).toBe('Blood Culture x2');
-      expect(orders[0].orderType).toBe(OrderType.Lab);
-      expect(orders[0].status).toBe(OrderStatus.Submitted);
+      expect(orders[0]?.details.itemName).toBe('Blood Culture x2');
+      expect(orders[0]?.orderType).toBe(OrderType.Lab);
+      expect(orders[0]?.status).toBe(OrderStatus.Submitted);
     });
 
     it('throws error for unknown protocol', () => {

@@ -1,7 +1,6 @@
 import type { Entity, ISODateString } from '../core/types';
-import { AppError, invalidTransition, validation } from '../core/errors';
-import { RiskBand } from '../core/enums';
-import { addMinutes, minutesBetween } from '../core/clock';
+import { invalidTransition } from '../core/errors';
+import { addMinutes } from '../core/clock';
 
 export const TriageLevel = {
   Immediate: 'Immediate',

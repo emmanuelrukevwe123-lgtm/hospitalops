@@ -1,5 +1,5 @@
 import type { Entity, ISODateString } from '../core/types';
-import { AppError, preconditionFailed } from '../core/errors';
+import { preconditionFailed } from '../core/errors';
 import { Department } from '../core/enums';
 
 export const StaffStatus = {

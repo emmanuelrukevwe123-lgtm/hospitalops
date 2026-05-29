@@ -1,5 +1,4 @@
 import type { Entity, ISODateString } from '../core/types';
-import { AppError, validation } from '../core/errors';
 import { Department } from '../core/enums';
 import { addMinutes } from '../core/clock';
 

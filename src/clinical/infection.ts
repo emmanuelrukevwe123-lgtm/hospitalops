@@ -1,7 +1,5 @@
 import type { Entity, ISODateString } from '../core/types';
-import { AppError, validation } from '../core/errors';
 import { Department } from '../core/enums';
-import { minutesBetween } from '../core/clock';
 
 export interface Pathogen extends Entity {
   name: string; // e.g. "MRSA", "COVID-19", "C. Diff"
@@ -54,7 +52,10 @@ export function checkOutbreakTriggers(
   }
 
   for (const [key, cases] of groups.entries()) {
-    const [pathogenId, wardId] = key.split(':');
+    const parts = key.split(':');
+    const pathogenId = parts[0];
+    const wardId = parts[1];
+    if (!pathogenId || !wardId) continue;
     const pathogen = pathogens.find((p) => p.id === pathogenId);
     if (!pathogen) continue;
 

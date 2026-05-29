@@ -56,8 +56,8 @@ describe('Infection Control & Outbreak Module', () => {
 
       const triggers = checkOutbreakTriggers(reports, pathogens, 7, now);
       expect(triggers).toHaveLength(1);
-      expect(triggers[0].wardId).toBe('ward_icu');
-      expect(triggers[0].caseCount).toBe(2);
+      expect(triggers[0]?.wardId).toBe('ward_icu');
+      expect(triggers[0]?.caseCount).toBe(2);
     });
 
     it('does not trigger outbreak if cases do not reach threshold', () => {

@@ -1,5 +1,5 @@
 import type { Entity } from '../core/types';
-import { AppError, invalidTransition, preconditionFailed, validation } from '../core/errors';
+import { invalidTransition, preconditionFailed } from '../core/errors';
 
 export const ClaimStatus = {
   Draft: 'Draft',

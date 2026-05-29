@@ -68,8 +68,8 @@ describe('Compliance & Accreditation Module', () => {
     it('escalates past due uncompleted tasks', () => {
       const now = new Date('2026-06-04T12:00:00.000Z');
       const updated = checkEscalations(tasks, now);
-      expect(updated[0].escalated).toBe(true);
-      expect(updated[1].escalated).toBe(false);
+      expect(updated[0]?.escalated).toBe(true);
+      expect(updated[1]?.escalated).toBe(false);
     });
   });
 });
