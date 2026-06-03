@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HospitalOps — Clinical Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="glow-bg"></div>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <h1>HospitalOps</h1>
+        <span class="badge">v1.0.0</span>
+      </div>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="triage">Triage & Patients</button>
+        <button class="tab-btn" data-tab="beds">Ward & Beds</button>
+        <button class="tab-btn" data-tab="pharmacy">Pharmacy & Meds</button>
+        <button class="tab-btn" data-tab="audit">Audit Log</button>
+        <button class="tab-btn" data-tab="analytics">KPIs & Reports</button>
+      </nav>
+    </header>
+
+    <main class="app-content">
+      <!-- TRIAGE & PATIENTS TAB -->
+      <section id="tab-triage" class="tab-content active">
+        <div class="grid-2col">
+          <div class="card glass-card">
+            <h2>Register New Patient</h2>
+            <form id="register-form">
+              <div class="form-group">
+                <label for="p-name">Patient Full Name</label>
+                <input type="text" id="p-name" placeholder="John Doe" required>
+              </div>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="p-gender">Gender</label>
+                  <select id="p-gender">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="p-birthdate">Birthdate</label>
+                  <input type="date" id="p-birthdate" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="p-complaint">Presenting Complaint</label>
+                <textarea id="p-complaint" rows="2" placeholder="e.g. Chest tightness, fever..." required></textarea>
+              </div>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="p-source">Arrival Source</label>
+                  <select id="p-source">
+                    <option value="WalkIn">Walk-In</option>
+                    <option value="Ambulance">Ambulance</option>
+                    <option value="Referral">Referral</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="p-comorbidities">Comorbidities (Comma Separated)</label>
+                  <input type="text" id="p-comorbidities" placeholder="Diabetes, MRSA">
+                </div>
+              </div>
+              <button type="submit" class="btn primary">Register Patient</button>
+            </form>
+          </div>
+
+          <div class="card glass-card">
+            <h2>Patient Admissions Queue</h2>
+            <div class="patient-list" id="patient-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WARD & BEDS TAB -->
+      <section id="tab-beds" class="tab-content">
+        <div class="card glass-card">
+          <h2>Ward & Bed Layout</h2>
+          <div class="bed-grid" id="bed-grid">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- PHARMACY TAB -->
+      <section id="tab-pharmacy" class="tab-content">
+        <div class="grid-2col">
+          <div class="card glass-card">
+            <h2>Medication Dispensation Desk</h2>
+            <form id="dispense-form">
+              <div class="form-group">
+                <label for="dispense-med">Select Medication</label>
+                <select id="dispense-med">
+                  <!-- Rendered via JS -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="dispense-patient">Patient</label>
+                <select id="dispense-patient">
+                  <!-- Rendered via JS -->
+                </select>
+              </div>
+              <div id="verifier-group" class="form-group hidden warning-bg">
+                <label for="dispense-verifier">High-Alert Dual Verifier Role</label>
+                <select id="dispense-verifier">
+                  <option value="">-- Choose Verifier --</option>
+                  <option value="Pharmacist">Pharmacist</option>
+                  <option value="ChiefMedicalOfficer">Chief Medical Officer</option>
+                </select>
+                <small class="alert-desc">⚠️ This is a High-Alert medication. A second clinician sign-off is required to dispense.</small>
+              </div>
+              <button type="submit" class="btn primary">Dispense 1 Unit</button>
+            </form>
+          </div>
+
+          <div class="card glass-card">
+            <h2>Pharmacy Inventory Status</h2>
+            <div class="med-list" id="med-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUDIT LOG TAB -->
+      <section id="tab-audit" class="tab-content">
+        <div class="card glass-card">
+          <h2>System Audit Trail</h2>
+          <div class="audit-log" id="audit-log">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ANALYTICS TAB -->
+      <section id="tab-analytics" class="tab-content">
+        <div class="analytics-grid">
+          <div class="metric-card card glass-card">
+            <h3>ICU Occupancy Rate</h3>
+            <div class="metric-val" id="metric-occupancy">0%</div>
+            <div class="progress-bar-container">
+              <div class="progress-bar" id="occupancy-progress" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="metric-card card glass-card">
+            <h3>Triage-to-Doctor SLA Attainment</h3>
+            <div class="metric-val" id="metric-sla">100%</div>
+            <div class="metric-sub" id="metric-sla-sub">0 of 0 patients met target</div>
+          </div>
+          <div class="metric-card card glass-card">
+            <h3>Total Registered Encounters</h3>
+            <div class="metric-val" id="metric-patients">0</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Triage Modal -->
+  <div id="triage-modal" class="modal">
+    <div class="modal-content glass-card">
+      <h2>Triage Assessment</h2>
+      <input type="hidden" id="triage-pat-id">
+      <div class="form-group">
+        <label for="triage-level">Select Triage Urgency Level</label>
+        <select id="triage-level">
+          <option value="Immediate">Immediate (Resuscitation)</option>
+          <option value="Urgent">Urgent</option>
+          <option value="Semi-Urgent">Semi-Urgent</option>
+          <option value="Non-Urgent">Non-Urgent</option>
+          <option value="Deceased">Deceased</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn secondary" onclick="closeModal('triage-modal')">Cancel</button>
+        <button class="btn primary" onclick="submitTriage()">Save Triage</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bed Assignment Modal -->
+  <div id="bed-modal" class="modal">
+    <div class="modal-content glass-card">
+      <h2>Admit Patient to Bed</h2>
+      <input type="hidden" id="bed-pat-id">
+      <div class="form-group">
+        <label for="assign-bed-id">Select Available Bed</label>
+        <select id="assign-bed-id">
+          <!-- Rendered via JS -->
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn secondary" onclick="closeModal('bed-modal')">Cancel</button>
+        <button class="btn primary" onclick="submitBedAssignment()">Assign & Admit</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
