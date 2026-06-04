@@ -28,7 +28,7 @@ for (let i = 1; i <= 47; i++) {
   });
 }
 
-/** Retrieve a rulepack by its ID. Throws error if not found. */
+/** Retrieve a rulepack by its ID. Throws if not found. */
 export function getRulepack(id: string): Rulepack {
   const pack = rulepacks.get(id);
   if (!pack) {
@@ -37,7 +37,17 @@ export function getRulepack(id: string): Rulepack {
   return pack;
 }
 
-/** Get all registered rulepacks. */
+/** Retrieve a rulepack by ID, falling back to pack-01 when the requested pack is missing. */
+export function getRulepackOrDefault(id: string): Rulepack {
+  return rulepacks.get(id) ?? rulepacks.get('pack-01')!;
+}
+
+/** Get all registered rulepacks sorted by id. */
 export function getAllRulepacks(): Rulepack[] {
-  return Array.from(rulepacks.values());
+  return Array.from(rulepacks.values()).sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** List all registered rulepack IDs. */
+export function listRulepackIds(): string[] {
+  return getAllRulepacks().map((p) => p.id);
 }
