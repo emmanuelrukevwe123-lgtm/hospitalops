@@ -1,5 +1,5 @@
 # ==============================================================================
-# 1. Dependencies Stage: Install packages with cache mount
+# 1. deps: install ALL packages (dev included — needed for tsc, tsx, vitest)
 # ==============================================================================
 FROM node:20-alpine AS deps
 
@@ -7,12 +7,23 @@ WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
 
-# Install all deps (devDeps needed for tsx, vitest, tsc)
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --frozen-lockfile
+    npm ci
 
 # ==============================================================================
-# 2. Test Stage: Type-check and run the full test suite
+# 2. prod-deps: install only production packages for the lean runtime image
+# ==============================================================================
+FROM node:20-alpine AS prod-deps
+
+WORKDIR /usr/src/app
+
+COPY package.json package-lock.json ./
+
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --omit=dev
+
+# ==============================================================================
+# 3. test: type-check and run the full test suite
 # ==============================================================================
 FROM deps AS test
 
@@ -22,22 +33,19 @@ RUN npm run typecheck
 RUN npm test
 
 # ==============================================================================
-# 3. Production Stage: Lean runtime image
+# 4. runner: lean production image — no devDependencies, no test files
 # ==============================================================================
 FROM node:20-alpine AS runner
 
 WORKDIR /usr/src/app
 
-# Only copy production-relevant files from the deps stage
-COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY package.json package-lock.json ./
-COPY src/ ./src/
-COPY public/ ./public/
-COPY tsconfig.json ./
+COPY --from=prod-deps --chown=node:node /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node package.json package-lock.json ./
+COPY --chown=node:node src/ ./src/
+COPY --chown=node:node public/ ./public/
+COPY --chown=node:node tsconfig.json ./
 
-# Persistent data directory for the file-backed store
-RUN mkdir -p data \
-    && chown -R node:node /usr/src/app
+RUN mkdir -p data && chown node:node data
 
 USER node
 
