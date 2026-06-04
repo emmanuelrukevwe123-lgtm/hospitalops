@@ -198,7 +198,7 @@ describe('findUncoveredShifts', () => {
     const shifts = [makeShift({ shiftType: ShiftType.Day })];
     const coverage = findUncoveredShifts(shifts, { Night: 1 });
     expect(coverage.length).toBeGreaterThan(0);
-    expect(coverage[0].shiftType).toBe(ShiftType.Night);
+    expect(coverage[0]!.shiftType).toBe(ShiftType.Night);
   });
 
   it('returns empty when coverage is met', () => {

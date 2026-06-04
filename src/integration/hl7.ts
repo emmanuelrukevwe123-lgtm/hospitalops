@@ -140,7 +140,7 @@ export function buildPV1(
   wardId?: string,
   bedId?: string,
   attendingDoctorId?: string,
-  admitReason?: string,
+  _admitReason?: string,
   dischargeDateTime?: string,
   visitNumber?: string,
 ): string {
@@ -363,11 +363,11 @@ export function parseHL7Message(rawMessage: string): HL7Segment[] {
   const segmentLines = rawMessage.split(/\r\n|\r|\n/).filter((l) => l.trim());
   return segmentLines.map((line) => {
     const fields = line.split(FIELD_SEPARATOR);
-    return { id: fields[0], fields };
+    return { id: fields[0] ?? '', fields };
   });
 }
 
-export function extractPIDFromSegments(segments: HL7Segment[]): ParsedADTMessage['patientName'] & { patientId: string; birthdate: string; gender: string } {
+export function extractPIDFromSegments(segments: HL7Segment[]): { patientId: string; patientName: ParsedADTMessage['patientName']; birthdate: string; gender: string } {
   const pid = segments.find((s) => s.id === 'PID');
   if (!pid) throw validation('No PID segment found in HL7 message');
 
@@ -403,13 +403,13 @@ export function parseHL7DateTime(hl7Date: string): string {
 }
 
 export function validateHL7MessageStructure(segments: HL7Segment[]): void {
-  if (segments.length === 0) {
+  const msh = segments[0];
+  if (!msh) {
     throw validation('HL7 message contains no segments');
   }
-  if (segments[0].id !== 'MSH') {
-    throw validation(`HL7 message must start with MSH segment, got: ${segments[0].id}`);
+  if (msh.id !== 'MSH') {
+    throw validation(`HL7 message must start with MSH segment, got: ${msh.id}`);
   }
-  const msh = segments[0];
   if (!msh.fields[9]) {
     throw validation('HL7 MSH segment is missing message type (field 9)');
   }

@@ -213,8 +213,8 @@ export function checkVitalTrend(
     .slice(-windowCount);
 
   if (sorted.length < 2) return 'Stable';
-  const first = sorted[0].value;
-  const last = sorted[sorted.length - 1].value;
+  const first = sorted[0]!.value;
+  const last = sorted[sorted.length - 1]!.value;
   const delta = last - first;
   const threshold = first * 0.05; // 5% change counts as a trend
   if (delta > threshold) return 'Rising';

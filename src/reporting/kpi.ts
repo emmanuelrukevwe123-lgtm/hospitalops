@@ -238,7 +238,7 @@ export function computeFinancialKPIs(claims: InsuranceClaim[]): FinancialKPIs {
 }
 
 export function benchmarkKPI(
-  metric: string,
+  _metric: string,
   value: number,
   benchmarks: { excellent: number; acceptable: number; poor: number },
   lowerIsBetter: boolean = false,

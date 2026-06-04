@@ -14,7 +14,7 @@ import {
 } from '../src/clinical/discharge';
 import type { DischargeCriteria, DischargeCheckliste } from '../src/clinical/discharge';
 import type { Patient } from '../src/clinical/patient';
-import { PatientState, TriageLevel } from '../src/clinical/patient';
+import { PatientState } from '../src/clinical/patient';
 import { AppError } from '../src/core/errors';
 
 function makePatient(overrides: Partial<Patient> = {}): Patient {

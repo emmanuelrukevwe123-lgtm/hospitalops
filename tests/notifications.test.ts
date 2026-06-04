@@ -20,14 +20,9 @@ import {
   shouldTriggerMET,
   calculateResponseTime,
   buildMETCallCriteria,
-  triggerEscalation,
   EscalationTier,
-  CallType,
 } from '../src/notifications/escalation';
 import type { ClinicalAlert } from '../src/notifications/alert';
-import type { EscalationEvent, OnCallRoster } from '../src/notifications/escalation';
-import { Department } from '../src/core/enums';
-import { AppError } from '../src/core/errors';
 
 function makeAlert(overrides: Partial<ClinicalAlert> = {}): ClinicalAlert {
   return {
@@ -169,9 +164,9 @@ describe('prioritiseAlerts', () => {
       makeAlert({ id: 'a3', severity: AlertSeverity.Critical, generatedAt: '2026-01-01T08:02:00Z' }),
     ];
     const sorted = prioritiseAlerts(alerts);
-    expect(sorted[0].id).toBe('a2');
-    expect(sorted[1].id).toBe('a3');
-    expect(sorted[2].id).toBe('a1');
+    expect(sorted[0]!.id).toBe('a2');
+    expect(sorted[1]!.id).toBe('a3');
+    expect(sorted[2]!.id).toBe('a1');
   });
 
   it('excludes resolved alerts', () => {
@@ -181,7 +176,7 @@ describe('prioritiseAlerts', () => {
     ];
     const sorted = prioritiseAlerts(alerts);
     expect(sorted).toHaveLength(1);
-    expect(sorted[0].id).toBe('a1');
+    expect(sorted[0]!.id).toBe('a1');
   });
 });
 

@@ -6,7 +6,6 @@ import { BedStatus, validateBedStatusTransition } from '../clinical/ward';
 import type { DischargeCheckliste, MedicationToTake } from '../clinical/discharge';
 import {
   DischargeStatus,
-  DischargeDestination,
   evaluateDischargeCriteria,
   validateDischargeReadiness,
   reconcileMedications,
@@ -49,7 +48,7 @@ export function updateDischargeStatus(
   checklist: DischargeCheckliste,
   now: ISODateString,
 ): DischargeCheckliste {
-  const { allMet, unmetCriteria } = evaluateDischargeCriteria(checklist.criteria);
+  const { allMet } = evaluateDischargeCriteria(checklist.criteria);
 
   let status: DischargeCheckliste['status'];
 
@@ -185,7 +184,7 @@ function buildPostDischargeInstructions(
 export function handleDelayedDischarge(
   checklist: DischargeCheckliste,
   reasons: DischargeCheckliste['delayReasons'],
-  reportedBy: string,
+  _reportedBy: string,
   now: ISODateString,
 ): { updatedChecklist: DischargeCheckliste; estimatedResolutionHours: number } {
   const estimatedResolutionHours = estimateDelayHours(reasons);
@@ -202,7 +201,7 @@ export function handleDelayedDischarge(
 }
 
 export function checkEarlyDischargeEligibility(
-  patient: Patient,
+  _patient: Patient,
   checklist: DischargeCheckliste,
   targetDateIso: ISODateString,
   now: ISODateString,

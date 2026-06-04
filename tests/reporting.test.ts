@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   computeBedManagementKPIs,
   computeLabKPIs,
-  computeRadiologyKPIs,
   computeSurgicalKPIs,
   computeFinancialKPIs,
   benchmarkKPI,
@@ -307,6 +306,6 @@ describe('generateBedUtilisationReport', () => {
     const beds = [makeBed('b1', BedStatus.Occupied, BedType.ICU)];
     const report = generateBedUtilisationReport(beds, '2026-01-01T00:00:00Z');
     expect(report.rows).toHaveLength(1);
-    expect(report.rows[0].bedId).toBe('b1');
+    expect(report.rows[0]!.bedId).toBe('b1');
   });
 });

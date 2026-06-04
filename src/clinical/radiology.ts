@@ -192,7 +192,7 @@ export function checkIonisingRadiationPregnancy(
   modality: ImagingModality,
   pregnancyStatus?: 'NotPregnant' | 'Pregnant' | 'Unknown',
 ): void {
-  const ionising = [
+  const ionising: ImagingModality[] = [
     ImagingModality.XRay,
     ImagingModality.CTScan,
     ImagingModality.Fluoroscopy,

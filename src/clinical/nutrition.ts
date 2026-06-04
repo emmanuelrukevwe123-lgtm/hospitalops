@@ -211,7 +211,7 @@ export function recommendFeedingRoute(
 }
 
 export function assessRefeedingSyndromeRisk(
-  weightKg: number,
+  _weightKg: number,
   bmi: number,
   daysNilByMouth: number,
   serumPhosphateMmolL?: number,

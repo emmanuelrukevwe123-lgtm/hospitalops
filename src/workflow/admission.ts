@@ -1,10 +1,10 @@
 import type { ISODateString } from '../core/types';
 import type { Patient } from '../clinical/patient';
-import { PatientState, validateStateTransition, calculatePriorityScore, getSLATargets } from '../clinical/patient';
+import { PatientState, validateStateTransition } from '../clinical/patient';
 import type { Bed } from '../clinical/ward';
 import { BedStatus, BedType, validateBedStatusTransition, checkIsolationEnforcement } from '../clinical/ward';
 import type { Clinician } from '../clinical/staff';
-import { verifyCredentials, escalateCall } from '../clinical/staff';
+import { verifyCredentials } from '../clinical/staff';
 import { preconditionFailed, validation } from '../core/errors';
 import type { Department } from '../core/enums';
 
@@ -262,7 +262,7 @@ export function reassignBed(
 export function findCoverageForDepartment(
   staff: Clinician[],
   department: Department,
-  now: Date,
+  _now: Date,
 ): { onDuty: Clinician[]; onCall: Clinician[]; adequate: boolean } {
   const onDuty = staff.filter(
     (s) => s.department === department && s.status === 'OnDuty',

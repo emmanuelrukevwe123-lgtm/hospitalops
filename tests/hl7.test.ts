@@ -3,8 +3,6 @@ import {
   buildMSH,
   buildPID,
   buildPV1,
-  buildOBX,
-  buildOBR,
   buildADTMessage,
   buildORUMessage,
   parseHL7Message,
@@ -121,9 +119,9 @@ describe('parseHL7Message', () => {
     const msg = 'MSH|^~\\&|App|Fac|App2|Fac2|20260101|Security|ADT^A01|MSG001|P|2.5\rPID|1||pat_001||Doe^John||19551112|M\rPV1|1|I';
     const segments = parseHL7Message(msg);
     expect(segments.length).toBe(3);
-    expect(segments[0].id).toBe('MSH');
-    expect(segments[1].id).toBe('PID');
-    expect(segments[2].id).toBe('PV1');
+    expect(segments[0]!.id).toBe('MSH');
+    expect(segments[1]!.id).toBe('PID');
+    expect(segments[2]!.id).toBe('PV1');
   });
 
   it('handles CRLF line endings', () => {

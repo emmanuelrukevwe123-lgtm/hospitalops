@@ -66,7 +66,7 @@ export function resolveNextTier(currentTier: EscalationTier): EscalationTier | n
     EscalationTier.Tier5_RapidResponseTeam,
   ];
   const idx = progression.indexOf(currentTier);
-  return idx >= 0 && idx < progression.length - 1 ? progression[idx + 1] : null;
+  return idx >= 0 && idx < progression.length - 1 ? progression[idx + 1]! : null;
 }
 
 export function selectOnCallRespondent(

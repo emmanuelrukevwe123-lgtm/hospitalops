@@ -257,7 +257,7 @@ export function calculateMassiveTransfusionRatio(
 }
 
 export function checkSpecialRequirements(
-  component: BloodComponent,
+  _component: BloodComponent,
   requiresIrradiated: boolean,
   requiresCMVNegative: boolean,
   unit: BloodUnit,
