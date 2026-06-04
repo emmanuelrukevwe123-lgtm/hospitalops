@@ -77,7 +77,7 @@ export function calculatePriorityScore(
   }
 
   let ageRisk = 0;
-  if (age > 65 || age < 1) {
+  if (age >= 65 || age < 1) {
     ageRisk = 15;
   }
 
