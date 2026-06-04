@@ -3,7 +3,7 @@
 # ==============================================================================
 FROM node:20-alpine AS deps
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package.json package-lock.json ./
 
@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/root/.npm \
 # ==============================================================================
 FROM node:20-alpine AS prod-deps
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package.json package-lock.json ./
 
@@ -37,9 +37,9 @@ RUN npm test
 # ==============================================================================
 FROM node:20-alpine AS runner
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY --from=prod-deps --chown=node:node /usr/src/app/node_modules ./node_modules
+COPY --from=prod-deps --chown=node:node /app/node_modules ./node_modules
 COPY --chown=node:node package.json package-lock.json ./
 COPY --chown=node:node src/ ./src/
 COPY --chown=node:node public/ ./public/

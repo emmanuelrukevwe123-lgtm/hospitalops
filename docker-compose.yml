@@ -10,7 +10,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - hospitalops_data:/usr/src/app/data
+      - hospitalops_data:/app/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/analytics"]
