@@ -1,49 +1,52 @@
 # ==============================================================================
-# 1. Base Stage: Install dependencies and set up workspace
+# 1. Dependencies Stage: Install packages with cache mount
 # ==============================================================================
-FROM node:20-alpine AS base
+FROM node:20-alpine AS deps
 
-# Set working directory
 WORKDIR /usr/src/app
 
-# Copy dependency definitions
 COPY package.json package-lock.json ./
 
-# Install all dependencies (including devDependencies as they contain tsx and typescript)
-RUN npm ci
+# Install all deps (devDeps needed for tsx, vitest, tsc)
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --frozen-lockfile
 
 # ==============================================================================
-# 2. Development & Test Stage: Copy source and run verification
+# 2. Test Stage: Type-check and run the full test suite
 # ==============================================================================
-FROM base AS test
+FROM deps AS test
 
-# Copy rest of the application files
 COPY . .
 
-# Run type check and tests to ensure the build is healthy
 RUN npm run typecheck
 RUN npm test
 
 # ==============================================================================
-# 3. Production Stage: Clean running environment
+# 3. Production Stage: Lean runtime image
 # ==============================================================================
-FROM base AS runner
+FROM node:20-alpine AS runner
 
-# Copy application source code
-COPY . .
+WORKDIR /usr/src/app
 
-# Create the data directory for the file-backed JSON store (if it doesn't exist)
-# and ensure it's writable by the node user
-RUN mkdir -p data && chown -R node:node data
+# Only copy production-relevant files from the deps stage
+COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY package.json package-lock.json ./
+COPY src/ ./src/
+COPY public/ ./public/
+COPY tsconfig.json ./
 
-# Use non-root node user for safety
+# Persistent data directory for the file-backed store
+RUN mkdir -p data \
+    && chown -R node:node /usr/src/app
+
 USER node
 
-# Expose port if a web server is added later (default is 3000, comment out if not needed)
-# EXPOSE 3000
-
-# Set Node environment to production
 ENV NODE_ENV=production
+ENV PORT=3000
 
-# Default command to start the application using tsx
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD wget -qO- http://localhost:3000/api/analytics || exit 1
+
 CMD ["npm", "start"]

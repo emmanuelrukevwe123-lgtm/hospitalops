@@ -5,21 +5,27 @@ services:
       dockerfile: Dockerfile
       target: runner
     environment:
-      - NODE_ENV=development
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-      - ./data:/usr/src/app/data
+      - NODE_ENV=production
+      - PORT=3000
     ports:
       - "3000:3000"
-    command: npm start
+    volumes:
+      - hospitalops_data:/usr/src/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/analytics"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   test:
     build:
       context: .
       dockerfile: Dockerfile
       target: test
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    command: npm test
+    environment:
+      - NODE_ENV=test
+
+volumes:
+  hospitalops_data:
