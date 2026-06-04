@@ -5,7 +5,7 @@ FROM node:20-alpine AS deps
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json /app/
 
 RUN --mount=type=cache,target=/root/.npm \
     npm ci
@@ -17,7 +17,7 @@ FROM node:20-alpine AS prod-deps
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json /app/
 
 RUN --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/root/.npm \
 # ==============================================================================
 FROM deps AS test
 
-COPY . .
+COPY . /app/
 
 RUN npm run typecheck
 RUN npm test
@@ -39,11 +39,11 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-COPY --from=prod-deps --chown=node:node /app/node_modules ./node_modules
-COPY --chown=node:node package.json package-lock.json ./
-COPY --chown=node:node src/ ./src/
-COPY --chown=node:node public/ ./public/
-COPY --chown=node:node tsconfig.json ./
+COPY --from=prod-deps --chown=node:node /app/node_modules /app/node_modules
+COPY --chown=node:node package.json package-lock.json /app/
+COPY --chown=node:node src/ /app/src/
+COPY --chown=node:node public/ /app/public/
+COPY --chown=node:node tsconfig.json /app/
 
 RUN mkdir -p data && chown node:node data
 
