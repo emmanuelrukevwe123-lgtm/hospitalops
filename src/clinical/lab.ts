@@ -48,7 +48,7 @@ export function validateSampleStatusTransition(from: SampleStatus, to: SampleSta
 /** Check if sample processing breached TAT SLA. */
 export function checkTATSLA(sample: LabSample, completionTime: ISODateString): boolean {
   const diff = minutesBetween(sample.collectedAt, completionTime);
-  return diff > sample.tatSLAThresholdMinutes;
+  return diff >= sample.tatSLAThresholdMinutes;
 }
 
 /** Check if the result values qualify as critical alert values. */
