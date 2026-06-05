@@ -12,6 +12,7 @@
     "demo": "tsx src/app.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint ."
   },
@@ -19,6 +20,7 @@
     "@types/node": "^20.14.0",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
     "@typescript-eslint/parser": "^7.13.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^8.57.0",
     "tsx": "^4.15.0",
     "typescript": "^5.4.5",

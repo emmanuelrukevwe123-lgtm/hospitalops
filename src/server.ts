@@ -106,7 +106,7 @@ const initSeeds = () => {
 
 initSeeds();
 
-const server = http.createServer((req, res) => {
+export const server = http.createServer((req, res) => {
   const url = new URL(req.url ?? '', `http://${req.headers.host}`);
   const method = req.method;
 
@@ -372,10 +372,15 @@ const server = http.createServer((req, res) => {
   sendError(404, 'Not Found');
 });
 
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`\n======================================================`);
-  console.log(` Hospital Operations Platform Web Server running!`);
-  console.log(` Local URL: http://localhost:${PORT}`);
-  console.log(`======================================================\n`);
-});
+const PORT = Number(process.env.PORT) || 3000;
+
+// Only bind a port when run as the application entrypoint. During tests the
+// server is imported and driven against an ephemeral port, so we skip listen().
+if (process.env.NODE_ENV !== 'test') {
+  server.listen(PORT, () => {
+    console.log(`\n======================================================`);
+    console.log(` Hospital Operations Platform Web Server running!`);
+    console.log(` Local URL: http://localhost:${PORT}`);
+    console.log(`======================================================\n`);
+  });
+}
